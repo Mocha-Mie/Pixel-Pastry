@@ -1,118 +1,66 @@
+// main.cpp - Hàm main quản lý vòng lặp game và xử lý khởi tạo
 #include "game.h"
+#include <SDL_image.h>
+#include <ctime>
+#include <SDL_image.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include "resource.h"
-#include <iostream>
 
-// Hiện màn hình Game Over
-void showGameOverScreen() {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-
-    SDL_Color white = {255, 255, 255};
-    SDL_Texture* gameOverText = renderText("Game Over!", white);
-    SDL_Rect overRect = {280, 220, 240, 40};
-    SDL_RenderCopy(renderer, gameOverText, nullptr, &overRect);
-
-    SDL_Texture* scoreText = renderText("Your Score: " + std::to_string(score), white);
-    SDL_Rect scoreRect = {270, 280, 260, 40};
-    SDL_RenderCopy(renderer, scoreText, nullptr, &scoreRect);
-
-    SDL_RenderPresent(renderer);
-    SDL_Delay(2500);
-
-    SDL_DestroyTexture(gameOverText);
-    SDL_DestroyTexture(scoreText);
-}
-
+// Hàm main
 int main(int argc, char* argv[]) {
+    // Khởi tạo SDL và các thư viện cần thiết
     srand((unsigned int)time(nullptr));
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     IMG_Init(IMG_INIT_PNG);
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
     TTF_Init();
 
-    if (!initResources()) return 1;
+    // Tạo cửa sổ và renderer
+    window = SDL_CreateWindow("Sweet Match", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-restart_game:
-    score = 0;
-    movesLeft = 20;
+    if (!initResources()) return 1;
     initGrid();
 
     bool quit = false;
-    SDL_Event e;
-
-    while (!quit) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) quit = true;
-
-            if (e.type == SDL_MOUSEBUTTONDOWN && movesLeft > 0) {
-                int x = e.button.x / 80;
-                int y = e.button.y / 80;
-
-                if (!candySelected) {
-                    selectedX = x;
-                    selectedY = y;
-                    candySelected = true;
-                } else {
-                    if (isAdjacent(x, y, selectedX, selectedY)) {
-                        swap(x, y, selectedX, selectedY);
-                        if (!findAndClearMatches())
-                            swap(x, y, selectedX, selectedY);
-                        else {
-                            collapseGrid();
-                            movesLeft--;
-                        }
-                    }
-                    candySelected = false;
-                }
+    bool playing = true;
+    SDL_Event e;  // Khai báo biến sự kiện chuột/bàn phím
+    while (playing) {
+        quit = false;
+        while (!quit) {
+            while (SDL_PollEvent(&e)) {
+                if (e.type == SDL_QUIT) quit = true;
+                handleMouse(e); // Xử lý click chuột
             }
+
+            if (findAndClearMatches()) collapseGrid();
+
+            SDL_SetRenderDrawColor(renderer, 173, 216, 230, 255); // Màu xanh nhạt
+            SDL_RenderClear(renderer);
+
+            renderUI(score, movesLeft); // Vẽ khung giao diện
+            renderGrid();               // Vẽ kẹo
+            SDL_RenderPresent(renderer);
+
+            SDL_Delay(150);
+
+            // Khi hết lượt thì thoát vòng lặp
+            if (movesLeft <= 0) quit = true;
         }
-
-        if (findAndClearMatches()) collapseGrid();
-
-        renderGrid();
-
-        // Vẽ khung điểm
-        SDL_Rect scorePanel = {640, 0, 160, 320};
-        SDL_SetRenderDrawColor(renderer, 255, 105, 180, 255); // hồng
-        SDL_RenderFillRect(renderer, &scorePanel);
-
-        // Vẽ khung lượt
-        SDL_Rect movePanel = {640, 320, 160, 320};
-        SDL_SetRenderDrawColor(renderer, 245, 245, 220, 255); // be nhạt
-        SDL_RenderFillRect(renderer, &movePanel);
-
-        SDL_Color white = {255, 255, 255};
-        SDL_Texture* scoreText = renderText("Score: " + std::to_string(score), white);
-        SDL_Rect scoreRect = {650, 50, 140, 30};
-        SDL_RenderCopy(renderer, scoreText, nullptr, &scoreRect);
-        SDL_DestroyTexture(scoreText);
-
-        SDL_Color brown = {139, 69, 19};
-        SDL_Texture* moveText = renderText("Moves: " + std::to_string(movesLeft), brown);
-        SDL_Rect moveRect = {650, 370, 140, 30};
-        SDL_RenderCopy(renderer, moveText, nullptr, &moveRect);
-        SDL_DestroyTexture(moveText);
-
-        SDL_RenderPresent(renderer);
-        SDL_Delay(100);
-
-        if (movesLeft <= 0) {
-            showGameOverScreen();
-
-            std::cout << "\n1. Restart game\n2. Exit\nNumber: ";
-            int choice;
-            std::cin >> choice;
-            std::cin.ignore();
-
-            if (choice == 1) {
-                goto restart_game; // chơi lại từ đầu
-            } else {
-                quit = true;
-            }
-        }
+        // Hiện khung Game Over và lựa chọn
+        showGameOverScreenWithButtons(e, playing);
     }
 
-    cleanupResources();
-    SDL_Quit(); IMG_Quit(); TTF_Quit();
+    // Giải phóng bộ nhớ
+    for (auto& tex : candyTextures) SDL_DestroyTexture(tex);
+    Mix_FreeMusic(bgMusic);
+    TTF_CloseFont(font);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    Mix_CloseAudio();
+    TTF_Quit();
+    IMG_Quit();
+    SDL_Quit();
     return 0;
 }
