@@ -1,16 +1,24 @@
 # Sweet Match
 
-*Sweet Match* là một trò chơi giải đố match-3, nơi người chơi hoán đổi vị trí các viên kẹo để tạo thành hàng hoặc cột có ít nhất 3 viên cùng màu.
-
-- Khi ghép thành công, kẹo sẽ biến mất và tạo hiệu ứng đẹp mắt.
-- Mỗi màn chơi có mục tiêu khác nhau: đạt điểm, phá chướng ngại, thu thập kẹo đặc biệt.
-- Nếu ghép được 4 hoặc 5 viên kẹo, người chơi sẽ tạo ra combo mạnh như bom nổ hoặc kẹo cầu vồng.
-
-Game có nhiều cấp độ với độ khó tăng dần, kèm vật phẩm hỗ trợ giúp vượt qua thử thách.
-
-Người chơi cần tính toán chiến lược để đạt mục tiêu trong số lượt đi giới hạn.
-
+*Sweet Match* là một trò chơi dạng match-3 đơn giản, lấy cảm hứng từ Candy Crush, được xây dựng bằng *C++ và SDL2*. Người chơi hoán đổi vị trí kẹo để tạo ra các tổ hợp 3, 4 hoặc 5 viên giống nhau để ghi điểm. Trò chơi có giao diện dễ thương, nhạc nền nhẹ nhàng và hiệu ứng khi match sinh động.
 
 ---
 
-**Đồ họa tươi sáng**, âm thanh vui nhộn và gameplay cuốn hút khiến game phù hợp với mọi lứa tuổi.
+## Tính năng nổi bật
+
+- *Lưới 8x8* kẹo với các màu sắc ngẫu nhiên
+- *Cơ chế match-3, match-4, match-5* với điểm số khác nhau
+- *20 lượt di chuyển*, game kết thúc khi hết lượt
+- *Nhạc nền thư giãn*
+- *Nút Restart và Exit* hiển thị sau khi kết thúc
+- *UI đẹp mắt*: khung điểm hồng đậm, khung lượt đi màu be nhạt, nền xanh biển
+
+---
+
+## Cách chơi
+
+1. Nhấn chuột trái để chọn một viên kẹo.
+2. Nhấn tiếp viên kẹo kế bên để hoán đổi.
+3. Nếu tạo được chuỗi ≥3 viên giống nhau, kẹo sẽ biến mất, điểm được cộng.
+4. Mỗi lượt đi thành công trừ 1 lượt.
+5. Khi hết lượt, bạn có thể *Restart* hoặc *Exit*.

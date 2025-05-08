@@ -5,6 +5,8 @@
 #include <SDL_mixer.h>
 #include <string>
 
+using namespace std;
+
 // Kích thước lưới và cửa sổ game
 const int GRID_SIZE = 8;
 const int TILE_SIZE = 80;
@@ -21,10 +23,10 @@ extern TTF_Font* font;
 extern Mix_Music* bgMusic;
 
 // Hàm load texture từ file ảnh
-SDL_Texture* loadTexture(const std::string& path);
+SDL_Texture* loadTexture(const string& path);
 
 // Hàm render chữ ra texture
-SDL_Texture* renderText(const std::string& text, SDL_Color color);
+SDL_Texture* renderText(const string& text, SDL_Color color);
 
 // Hàm khởi tạo toàn bộ tài nguyên game (ảnh, font, nhạc)
 bool initResources();

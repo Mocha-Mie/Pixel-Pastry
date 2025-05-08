@@ -1,6 +1,8 @@
 #include "resource.h"
 #include <iostream>
 
+using namespace std;
+
 // Định nghĩa các biến tài nguyên toàn cục
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
@@ -9,10 +11,10 @@ TTF_Font* font = nullptr;
 Mix_Music* bgMusic = nullptr;
 
 // Hàm load ảnh PNG thành texture
-SDL_Texture* loadTexture(const std::string& path) {
+SDL_Texture* loadTexture(const string& path) {
     SDL_Surface* surface = IMG_Load(path.c_str());
     if (!surface) {
-        std::cout << "IMG_Load Error: " << IMG_GetError() << std::endl;
+        cout << "IMG_Load Error: " << IMG_GetError() << endl;
         return nullptr;
     }
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -21,7 +23,7 @@ SDL_Texture* loadTexture(const std::string& path) {
 }
 
 // Hàm tạo texture từ văn bản (dùng để hiển thị chữ điểm số, lượt...)
-SDL_Texture* renderText(const std::string& text, SDL_Color color) {
+SDL_Texture* renderText(const string& text, SDL_Color color) {
     SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
     if (!surface) return nullptr;
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -46,14 +48,14 @@ bool initResources() {
     // Load font
     font = TTF_OpenFont("res/LoveDays-2v7Oe.ttf", 24);
     if (!font) {
-        std::cout << "Font Error: " << TTF_GetError() << std::endl;
+        cout << "Font Error: " << TTF_GetError() << endl;
         return false;
     }
 
     // Load nhạc nền
     bgMusic = Mix_LoadMUS("res/bg_music.mp3");
     if (!bgMusic) {
-        std::cout << "Music Error: " << Mix_GetError() << std::endl;
+        cout << "Music Error: " << Mix_GetError() << endl;
         return false;
     }
 

@@ -5,10 +5,12 @@
 #include <cstdlib>
 #include <ctime>
 
+using namespace std;
+
 // Lưới game và các biến toàn cục
 int grid[GRID_SIZE][GRID_SIZE];
 int score = 0;
-int movesLeft = 20;
+int movesLeft = 15;
 bool candySelected = false;
 int selectedX = -1, selectedY = -1;
 bool showMatches[GRID_SIZE][GRID_SIZE] = {}; // Đánh dấu các ô được match để vẽ hiệu ứng
@@ -23,18 +25,18 @@ void initGrid() {
 
 // Kiểm tra hai ô có kề nhau không
 bool isAdjacent(int x1, int y1, int x2, int y2) {
-    return (std::abs(x1 - x2) + std::abs(y1 - y2)) == 1;
+    return (abs(x1 - x2) + abs(y1 - y2)) == 1;
 }
 
 // Hoán đổi hai ô
 void swap(int x1, int y1, int x2, int y2) {
-    std::swap(grid[y1][x1], grid[y2][x2]);
+    swap(grid[y1][x1], grid[y2][x2]);
 }
 
 // Vẽ lưới kẹo và hiệu ứng
 void renderGrid() {
     SDL_SetRenderDrawColor(renderer, 173, 216, 230, 255);
-    SDL_Rect gameArea = {0, 90, 640, 640};
+    SDL_Rect gameArea = {0, 80, 640, 660};
     SDL_RenderFillRect(renderer, &gameArea);
 
     for (int y = 0; y < 8; ++y) {
@@ -210,7 +212,7 @@ void renderUI(int score, int movesLeft) {
     SDL_RenderFillRect(renderer, &moveRect);
 
     // Hiển thị điểm (chữ trắng, căn giữa)
-    std::string scoreStr = "Scores: " + std::to_string(score);
+    string scoreStr = "Scores: " + to_string(score);
     SDL_Surface* scoreSurface = TTF_RenderUTF8_Blended(font, scoreStr.c_str(), {255, 255, 255});
     SDL_Texture* scoreTex = SDL_CreateTextureFromSurface(renderer, scoreSurface);
 
@@ -226,7 +228,7 @@ void renderUI(int score, int movesLeft) {
     SDL_DestroyTexture(scoreTex);
 
     // Hiển thị lượt đi (chữ nâu)
-    std::string moveStr = "Move left: " + std::to_string(movesLeft);
+    string moveStr = "Move left: " + to_string(movesLeft);
     SDL_Surface* moveSurface = TTF_RenderUTF8_Blended(font, moveStr.c_str(), {139, 69, 19});
     SDL_Texture* moveTex = SDL_CreateTextureFromSurface(renderer, moveSurface);
 
@@ -260,7 +262,7 @@ void showGameOverScreenWithButtons(SDL_Event &e, bool &playing) {
                         y >= restartBtn.y && y <= restartBtn.y + restartBtn.h) {
                         // Chơi lại
                         score = 0;
-                        movesLeft = 20;
+                        movesLeft = 15;
                         initGrid();
                         Mix_PlayMusic(bgMusic, -1); // Phát lại nhạc
                         inMenu = false;
@@ -286,7 +288,7 @@ void showGameOverScreenWithButtons(SDL_Event &e, bool &playing) {
             SDL_DestroyTexture(tex);
     
             // Hiển thị điểm
-            std::string scoreStr = "Score: " + std::to_string(score);
+            string scoreStr = "Your score: " + to_string(score);
             surface = TTF_RenderText_Solid(font, scoreStr.c_str(), white);
             tex = SDL_CreateTextureFromSurface(renderer, surface);
             SDL_Rect scoreRect = { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 30, 200, 30 };
@@ -296,7 +298,7 @@ void showGameOverScreenWithButtons(SDL_Event &e, bool &playing) {
     
             // Vẽ nút Restartt
             SDL_RenderDrawRect(renderer, &restartBtn);
-            std::string restartText = "Restart";
+            string restartText = "Restart";
             surface = TTF_RenderText_Solid(font, restartText.c_str(), white);
             tex = SDL_CreateTextureFromSurface(renderer, surface);
             int w, h;
@@ -312,7 +314,7 @@ void showGameOverScreenWithButtons(SDL_Event &e, bool &playing) {
     
             // Vẽ nút Exit
             SDL_RenderDrawRect(renderer, &exitBtn);
-            std::string exitText = "Exit";
+            string exitText = "Exit";
             surface = TTF_RenderText_Solid(font, exitText.c_str(), white);
             tex = SDL_CreateTextureFromSurface(renderer, surface);
             TTF_SizeText(font, exitText.c_str(), &w, &h);

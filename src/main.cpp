@@ -36,7 +36,6 @@ int main(int argc, char* argv[]) {
 
             if (findAndClearMatches()) collapseGrid();
 
-            SDL_SetRenderDrawColor(renderer, 173, 216, 230, 255); // Màu xanh nhạt
             SDL_RenderClear(renderer);
 
             renderUI(score, movesLeft); // Vẽ khung giao diện
