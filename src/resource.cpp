@@ -33,7 +33,7 @@ SDL_Texture* renderText(const string& text, SDL_Color color) {
 
 // Hàm khởi tạo toàn bộ tài nguyên game: ảnh, nhạc, font
 bool initResources() {
-    // Load 5 ảnh kẹo
+    // Load 5 ảnh bánh
     candyTextures[0] = loadTexture("res/cake-01.png");
     candyTextures[1] = loadTexture("res/cake-02.png");
     candyTextures[2] = loadTexture("res/cake-03.png");
