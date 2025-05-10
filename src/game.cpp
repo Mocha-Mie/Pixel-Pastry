@@ -35,7 +35,7 @@ void swap(int x1, int y1, int x2, int y2) {
 
 // Vẽ lưới kẹo và hiệu ứng
 void renderGrid() {
-    SDL_SetRenderDrawColor(renderer, 173, 216, 230, 255);
+    SDL_SetRenderDrawColor(renderer, 201, 234, 242, 255);
     SDL_Rect gameArea = {0, 80, 640, 660};
     SDL_RenderFillRect(renderer, &gameArea);
 
@@ -202,13 +202,13 @@ void renderUI(int score, int movesLeft) {
     SDL_RenderFillRect(renderer, &topBar);
 
     // Vẽ khung điểm (hồng đậm)
-    SDL_SetRenderDrawColor(renderer, 255, 105, 180, 255); 
+    SDL_SetRenderDrawColor(renderer, 252, 66, 168, 255); 
     SDL_Rect scoreRect = {30, 20, 180, 40};
     SDL_RenderFillRect(renderer, &scoreRect);
 
     // Vẽ khung lượt đi (be nhạt)
     SDL_SetRenderDrawColor(renderer, 245, 222, 179, 255);
-    SDL_Rect moveRect = {SCREEN_WIDTH - 210, 20, 180, 40};
+    SDL_Rect moveRect = {SCREEN_WIDTH - 250, 20, 220, 40};
     SDL_RenderFillRect(renderer, &moveRect);
 
     // Hiển thị điểm (chữ trắng, căn giữa)
@@ -319,7 +319,7 @@ void showGameOverScreenWithButtons(SDL_Event &e, bool &playing) {
             tex = SDL_CreateTextureFromSurface(renderer, surface);
             TTF_SizeText(font, exitText.c_str(), &w, &h);
             SDL_Rect exitTextRect = {
-                exitBtn.x + (exitBtn.w - w) / 2,
+                exitBtn.x + (exitBtn.w - w) / 2 + 20,
                 exitBtn.y + (exitBtn.h - h) / 2,
                 w, h
             };

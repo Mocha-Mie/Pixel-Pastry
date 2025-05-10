@@ -34,11 +34,11 @@ SDL_Texture* renderText(const string& text, SDL_Color color) {
 // Hàm khởi tạo toàn bộ tài nguyên game: ảnh, nhạc, font
 bool initResources() {
     // Load 5 ảnh kẹo
-    candyTextures[0] = loadTexture("res/candy_pink.png");
-    candyTextures[1] = loadTexture("res/candy_brown.png");
-    candyTextures[2] = loadTexture("res/candy_yellow.png");
-    candyTextures[3] = loadTexture("res/candy_green.png");
-    candyTextures[4] = loadTexture("res/candy_blue.png");
+    candyTextures[0] = loadTexture("res/cake-01.png");
+    candyTextures[1] = loadTexture("res/cake-02.png");
+    candyTextures[2] = loadTexture("res/cake-03.png");
+    candyTextures[3] = loadTexture("res/cake-04.png");
+    candyTextures[4] = loadTexture("res/cake-05.png");
 
     // Kiểm tra load ảnh thành công
     for (int i = 0; i < NUM_CANDIES; ++i) {
@@ -46,7 +46,7 @@ bool initResources() {
     }
 
     // Load font
-    font = TTF_OpenFont("res/LoveDays-2v7Oe.ttf", 24);
+    font = TTF_OpenFont("res/Pixel Sans Serif Condensed.ttf", 20);
     if (!font) {
         cout << "Font Error: " << TTF_GetError() << endl;
         return false;

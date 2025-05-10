@@ -1,4 +1,3 @@
-// main.cpp - Hàm main quản lý vòng lặp game và xử lý khởi tạo
 #include "game.h"
 #include <SDL_image.h>
 #include <ctime>
@@ -17,7 +16,7 @@ int main(int argc, char* argv[]) {
     TTF_Init();
 
     // Tạo cửa sổ và renderer
-    window = SDL_CreateWindow("Sweet Match", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Pixel Pastry", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     if (!initResources()) return 1;
