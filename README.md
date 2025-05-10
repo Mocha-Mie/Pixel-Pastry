@@ -6,7 +6,7 @@
 
 ## Tính năng nổi bật
 
-- *Lưới 8x8* kẹo với các màu sắc ngẫu nhiên
+- *Lưới 8x8* bánh với các màu sắc ngẫu nhiên
 - *Cơ chế match-3, match-4, match-5* với điểm số khác nhau, *match-3* + 10 điểm, *match-4* + 20 điểm, *match-5* + 50 điểm
 - *15 lượt di chuyển*, game kết thúc khi hết lượt
 - *Nhạc nền thư giãn*
